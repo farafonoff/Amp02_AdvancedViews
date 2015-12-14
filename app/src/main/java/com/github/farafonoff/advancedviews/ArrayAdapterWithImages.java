@@ -8,8 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.github.farafonoff.advancedviews.dummy.DummyItems;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -44,10 +44,13 @@ public class ArrayAdapterWithImages extends ArrayAdapter<DummyItems.DummyItem> {
             holder = (MyViewHolder) convertView.getTag();
         }
         holder.imageref.setBackgroundColor(0);
-        Glide.with(getContext())
+        /*Glide.with(getContext())
                 .load(item.getImageUri())
                 .centerCrop()
                 .crossFade()
+                .into(holder.imageref);*/
+        Picasso.with(getContext())
+                .load(item.getImageUri())
                 .into(holder.imageref);
         holder.textref.setText(item.getWord());
         return convertView;
