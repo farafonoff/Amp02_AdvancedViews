@@ -50,7 +50,7 @@ public class DummyItems {
     }
 
     static String uriFromWord(String word) {
-        return "http://loremflickr.com/100/100/"+word;
+        return "http://loremflickr.com/100/100/"+word+"/";
     }
 
     public static class DummyItem {

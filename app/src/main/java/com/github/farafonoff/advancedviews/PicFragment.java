@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.github.farafonoff.advancedviews.dummy.DummyClickListener;
 import com.github.farafonoff.advancedviews.dummy.DummyItems;
 
 /**
@@ -25,7 +26,7 @@ import com.github.farafonoff.advancedviews.dummy.DummyItems;
  * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
  * interface.
  */
-public class PicFragment extends Fragment implements AbsListView.OnItemClickListener {
+public class PicFragment extends Fragment implements DummyClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,7 +48,7 @@ public class PicFragment extends Fragment implements AbsListView.OnItemClickList
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private RecyclerView.Adapter mAdapter;
+    private ArrayAdapterWithImages mAdapter;
 
     // TODO: Rename and change types of parameters
     public static PicFragment newInstance(String param1, String param2) {
@@ -87,6 +88,7 @@ public class PicFragment extends Fragment implements AbsListView.OnItemClickList
         // Set the adapter
         mListView = (RecyclerView) view.findViewById(R.id.piclist);
         mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mAdapter.setOnClickListener(this);
         mListView.setAdapter(mAdapter);
 
         return view;
@@ -109,15 +111,6 @@ public class PicFragment extends Fragment implements AbsListView.OnItemClickList
         mListener = null;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onFragmentInteraction(DummyItems.ITEMS.get(position).getWord());
-        }
-    }
-
     /**
      * The default content for this Fragment has a TextView that is shown when
      * the list is empty. If you would like to change the text, call this method
@@ -129,6 +122,13 @@ public class PicFragment extends Fragment implements AbsListView.OnItemClickList
         if (emptyView instanceof TextView) {
             ((TextView) emptyView).setText(emptyText);
         }*/
+    }
+
+    @Override
+    public void onClick(String id) {
+        if (mListener!=null) {
+            mListener.onFragmentInteraction(id);
+        }
     }
 
     /**

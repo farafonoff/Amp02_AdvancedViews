@@ -16,7 +16,11 @@ public class MainActivity extends AppCompatActivity implements PicFragment.OnFra
 
     @Override
     public void onFragmentInteraction(String id) {
-
+        WebViewFragment frag = WebViewFragment.newInstance("http://www.google.com/search?tbm=isch&q="+id, null);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.mainFragment, frag)
+                .addToBackStack(id)
+                .commit();
     }
 
     @Override
@@ -62,5 +66,14 @@ public class MainActivity extends AppCompatActivity implements PicFragment.OnFra
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0 ){
+            getSupportFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
