@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.github.farafonoff.advancedviews.dummy.TextDialog;
+
 public class MainActivity extends AppCompatActivity implements PicFragment.OnFragmentInteractionListener, WebViewFragment.OnFragmentInteractionListener {
 
     @Override
@@ -33,8 +35,9 @@ public class MainActivity extends AppCompatActivity implements PicFragment.OnFra
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                new TextDialog().show(getSupportFragmentManager(),"newitem");
             }
         });
     }

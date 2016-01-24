@@ -1,6 +1,7 @@
 package com.github.farafonoff.advancedviews;
 
 import android.content.Context;
+import android.databinding.ObservableList;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,35 @@ public class ArrayAdapterWithImages extends RecyclerView.Adapter<ArrayAdapterWit
         this.mResourceId = resource;
         this.objects = objects;
         this.context = context;
+        if (objects instanceof ObservableList) {
+            ObservableList observable = (ObservableList) objects;
+            observable.addOnListChangedCallback(new ObservableList.OnListChangedCallback<ObservableList>() {
+                @Override
+                public void onChanged(ObservableList sender) {
+                    ArrayAdapterWithImages.this.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onItemRangeChanged(ObservableList sender, int positionStart, int itemCount) {
+                    ArrayAdapterWithImages.this.notifyItemRangeChanged(positionStart, itemCount);
+                }
+
+                @Override
+                public void onItemRangeInserted(ObservableList sender, int positionStart, int itemCount) {
+                    ArrayAdapterWithImages.this.notifyItemRangeInserted(positionStart, itemCount);
+                }
+
+                @Override
+                public void onItemRangeMoved(ObservableList sender, int fromPosition, int toPosition, int itemCount) {
+                    ArrayAdapterWithImages.this.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onItemRangeRemoved(ObservableList sender, int positionStart, int itemCount) {
+                    ArrayAdapterWithImages.this.notifyItemRangeRemoved(positionStart, itemCount);
+                }
+            });
+        }
     }
 
     @Override
