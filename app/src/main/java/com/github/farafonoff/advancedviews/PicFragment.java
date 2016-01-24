@@ -3,6 +3,8 @@ package com.github.farafonoff.advancedviews;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,13 +41,13 @@ public class PicFragment extends Fragment implements AbsListView.OnItemClickList
     /**
      * The fragment's ListView/GridView.
      */
-    private AbsListView mListView;
+    private RecyclerView mListView;
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    private RecyclerView.Adapter mAdapter;
 
     // TODO: Rename and change types of parameters
     public static PicFragment newInstance(String param1, String param2) {
@@ -83,11 +85,9 @@ public class PicFragment extends Fragment implements AbsListView.OnItemClickList
         View view = inflater.inflate(R.layout.fragment_pic, container, false);
 
         // Set the adapter
-        mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
-
-        // Set OnItemClickListener so we can be notified on item clicks
-        mListView.setOnItemClickListener(this);
+        mListView = (RecyclerView) view.findViewById(R.id.piclist);
+        mListView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mListView.setAdapter(mAdapter);
 
         return view;
     }
@@ -124,11 +124,11 @@ public class PicFragment extends Fragment implements AbsListView.OnItemClickList
      * to supply the text it should use.
      */
     public void setEmptyText(CharSequence emptyText) {
-        View emptyView = mListView.getEmptyView();
+        /*View emptyView = mListView.getEmptyView();
 
         if (emptyView instanceof TextView) {
             ((TextView) emptyView).setText(emptyText);
-        }
+        }*/
     }
 
     /**

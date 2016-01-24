@@ -1,6 +1,7 @@
 package com.github.farafonoff.advancedviews;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,43 +17,52 @@ import java.util.List;
 /**
  * Created by Artem_Farafonov on 12/14/2015.
  */
-public class ArrayAdapterWithImages extends ArrayAdapter<DummyItems.DummyItem> {
+public class ArrayAdapterWithImages extends RecyclerView.Adapter<ArrayAdapterWithImages.MyViewHolder> {
 
     int mResourceId;
+    Context context;
+    List<DummyItems.DummyItem> objects;
 
     public ArrayAdapterWithImages(Context context, int resource, List<DummyItems.DummyItem> objects) {
-        super(context, 0, objects);
+        super();
         this.mResourceId = resource;
-    }
-
-    static class MyViewHolder {
-        ImageView imageref;
-        TextView textref;
+        this.objects = objects;
+        this.context = context;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        DummyItems.DummyItem item = getItem(position);
-        MyViewHolder holder;
-        if (convertView==null) {
-            convertView = LayoutInflater.from(getContext()).inflate(mResourceId, null);
-            holder = new MyViewHolder();
-            holder.imageref = (ImageView) convertView.findViewById(R.id.item_img);
-            holder.textref = (TextView) convertView.findViewById(R.id.item_text);
-            convertView.setTag(holder);
-        } else {
-            holder = (MyViewHolder) convertView.getTag();
-        }
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View convertView = LayoutInflater.from(context).inflate(mResourceId, null);
+        MyViewHolder holder = new MyViewHolder(convertView);
+        convertView.setTag(holder);
+        parent.addView(convertView);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(MyViewHolder holder, int position) {
         holder.imageref.setBackgroundColor(0);
-        /*Glide.with(getContext())
-                .load(item.getImageUri())
-                .centerCrop()
-                .crossFade()
-                .into(holder.imageref);*/
-        Picasso.with(getContext())
+        DummyItems.DummyItem item = objects.get(position);
+        Picasso.with(context)
                 .load(item.getImageUri())
                 .into(holder.imageref);
         holder.textref.setText(item.getWord());
-        return convertView;
     }
+
+    @Override
+    public int getItemCount() {
+        return objects.size();
+    }
+
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+        ImageView imageref;
+        TextView textref;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            imageref = (ImageView) itemView.findViewById(R.id.item_img);
+            textref = (TextView) itemView.findViewById(R.id.item_text);
+        }
+    }
+
 }
